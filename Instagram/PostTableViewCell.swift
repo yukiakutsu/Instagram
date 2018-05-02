@@ -17,6 +17,8 @@ class PostTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var commentButton: UIButton!
     
+    var postdata: PostData!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -33,7 +35,7 @@ class PostTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         // テーブル行の高さをAutoLayoutで自動調整する
         tableView.rowHeight = UITableViewAutomaticDimension
         // テーブル行の高さの概算値を設定しておく
-        tableView.estimatedRowHeight = 400
+        tableView.estimatedRowHeight = 200
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -44,6 +46,8 @@ class PostTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     func setPostData(_ postData: PostData){
         // デバッグ
         print("DEBUG_PRINT: setPostDataが実行された")
+        
+        self.postdata = postData
         
         postImageView.image = postData.image
         
@@ -64,21 +68,15 @@ class PostTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
             self.likeButton.setImage(buttonImage, for: .normal)
         }
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.postData = postData
-        
         // コメント一覧のTableViewを表示する
         self.tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
         // デバッグ
-        print("DEBUG_PRINT: Post numberOfRowsInSection postdata数 = \(appDelegate.postData!.comment.count)")
+        print("DEBUG_PRINT: Post numberOfRowsInSection postdata数 = \(postdata.comments.count)")
         
-        return appDelegate.postData!.comment.count
+        return postdata.comments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -91,9 +89,9 @@ class PostTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         
         return cell
     }
-    
-    //func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //    return 400.0
-    //}
- 
+    /*
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 200.0
+    }
+ */
 }

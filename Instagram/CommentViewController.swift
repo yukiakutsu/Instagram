@@ -24,9 +24,6 @@ class CommentViewController: UIViewController {
         // 背景をタップしたらdismissKeyboardメソッドを呼ぶように設定する
         let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(dismissKeyboard))
         self.view.addGestureRecognizer(tapGesture)
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        self.postdata = appDelegate.postData
     }
     
     @objc func dismissKeyboard(){
@@ -49,14 +46,12 @@ class CommentViewController: UIViewController {
         if let user = Auth.auth().currentUser?.displayName{
             // 増えたコメントをFirebaseに保存する
             let postRef = Database.database().reference().child(Const.PostPath).child(self.postdata.id!)
-            
             let comment = CommentText.text
-            if comment != ""{
-                self.postdata.commentUser.insert(user, at: 0)
-                self.postdata.comment.insert(comment!, at: 0)
+            if comment != "" && comment != nil{
+                self.postdata.comments.insert([user, comment!], at: 0)
                 
-                postRef.updateChildValues(["commentUser" : postdata.commentUser])
-                postRef.updateChildValues(["comment" : postdata.comment])
+                // コメントをデータベースに入れる
+                postRef.updateChildValues(["comments" : postdata.comments])
                 
                 // HUDで投稿完了を表示する
                 SVProgressHUD.showSuccess(withStatus: "コメントしました")

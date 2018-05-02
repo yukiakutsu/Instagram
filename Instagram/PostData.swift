@@ -19,8 +19,7 @@ class PostData: NSObject {
     var date: Date?
     var likes: [String] = []
     var isLiked: Bool = false
-    var commentUser: [String] = []
-    var comment: [String] = []
+    var comments: [[String]] = [[]]
     
     init (snapshot: DataSnapshot, myId: String){
         self.id = snapshot.key
@@ -41,12 +40,8 @@ class PostData: NSObject {
             self.likes = likes
         }
         
-        if let commentName = valueDictionary["commentUser"] as? [String]{
-            self.commentUser = commentName
-        }
-        
-        if let commentArray = valueDictionary["comment"] as? [String]{
-            self.comment = commentArray
+        if let comments = valueDictionary["comments"] as? [[String]]{
+            self.comments = comments
         }
         
         for likeId in self.likes {

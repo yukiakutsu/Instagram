@@ -119,6 +119,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         // セルを取得してデータを設定する
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! PostTableViewCell
+        
         cell.setPostData(postArray[indexPath.row])
         
         // セル内のいいねボタンのアクションをソースコードで設定する
@@ -166,6 +167,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
+    // コメントボタンをタップ
     @objc func commentHandleButton(_ sender: UIButton, forEvent event: UIEvent){
         print("DEBUG_PRINT: コメントボタンがタップされました。")
         
@@ -177,12 +179,11 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // 配列からタップされたインデックスのpostデータを取り出す
         let postData = postArray[indexPath!.row]
         
-        // ビューの値は保持されないので、デリゲートにポストデータをセット
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.postData = postData
-        
         // コメント入力画面のインスタンスを生成
-        let CV = self.storyboard?.instantiateViewController(withIdentifier: "Comment")
+        let CV = self.storyboard?.instantiateViewController(withIdentifier: "Comment") as? CommentViewController
+        // コメント入力画面にタップされたpostdataを代入
+        CV?.postdata = postData
+        
         // 画面を開く
         self.present(CV!, animated: true, completion: nil)
     }

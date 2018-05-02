@@ -7,10 +7,15 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class CommentTableViewCell: UITableViewCell {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var comment: UITextView!
+    
+    var postdata: PostData!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,9 +29,8 @@ class CommentTableViewCell: UITableViewCell {
     }
     // 投稿者の名前、コメントを取得し、表示
     func setComment(_ index: Int){
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        self.name.text = appDelegate.postData!.commentUser[index]
-        self.comment.text = appDelegate.postData!.comment[index]
+        self.name.text = postdata!.comments[index][0]
+        self.comment.text = postdata!.comments[index][1]
     }
 }
