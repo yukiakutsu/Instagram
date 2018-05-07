@@ -36,7 +36,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.rowHeight = UITableViewAutomaticDimension
         // テーブル行の高さの概算値を設定しておく
         // 高さ概算値　＝　「縦横比1:1のUIImageViewの高さ(=画面幅)」+「いいねボタン、キャプションラベル、その他余白の高さの合計幅(=100)」
-        tableView.estimatedRowHeight = UIScreen.main.bounds.width + 100
+        tableView.estimatedRowHeight = UIScreen.main.bounds.width + 100 + 400
     }
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
@@ -119,7 +119,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         // セルを取得してデータを設定する
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! PostTableViewCell
-        
+        cell.postdata = postArray[indexPath.row]
         cell.setPostData(postArray[indexPath.row])
         
         // セル内のいいねボタンのアクションをソースコードで設定する
@@ -180,12 +180,12 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let postData = postArray[indexPath!.row]
         
         // コメント入力画面のインスタンスを生成
-        let CV = self.storyboard?.instantiateViewController(withIdentifier: "Comment") as? CommentViewController
+        let commentview = self.storyboard?.instantiateViewController(withIdentifier: "Comment") as? CommentViewController
         // コメント入力画面にタップされたpostdataを代入
-        CV?.postdata = postData
+        commentview?.postdata = postData
         
         // 画面を開く
-        self.present(CV!, animated: true, completion: nil)
+        self.present(commentview!, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {

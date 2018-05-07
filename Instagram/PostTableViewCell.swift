@@ -17,25 +17,28 @@ class PostTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var commentButton: UIButton!
     
-    var postdata: PostData!
+    var postdata: PostData? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
+        //デバッグ
+        print("DEBUG_PRINT: post awakeFromNibが実行")
         tableView.delegate = self
         tableView.dataSource = self
         
         // テーブルセルのタップを無効にする
         tableView.allowsSelection = false
         
+        // テーブル行の高さをAutoLayoutで自動調整する
+        //tableView.rowHeight = UITableViewAutomaticDimension
+        // テーブル行の高さの概算値を設定しておく
+        //tableView.estimatedRowHeight = 200
+        
         let nib = UINib(nibName: "CommentTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "commentCell")
         
-        // テーブル行の高さをAutoLayoutで自動調整する
-        tableView.rowHeight = UITableViewAutomaticDimension
-        // テーブル行の高さの概算値を設定しておく
-        tableView.estimatedRowHeight = 200
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -47,7 +50,7 @@ class PostTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         // デバッグ
         print("DEBUG_PRINT: setPostDataが実行された")
         
-        self.postdata = postData
+        //self.postdata = postData
         
         postImageView.image = postData.image
         
@@ -69,29 +72,36 @@ class PostTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         }
         
         // コメント一覧のTableViewを表示する
-        self.tableView.reloadData()
+        //self.tableView.reloadData()
     }
     
+    // セルの数を返す
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // デバッグ
-        print("DEBUG_PRINT: Post numberOfRowsInSection postdata数 = \(postdata.comments.count)")
         
-        return postdata.comments.count
+        if postdata == nil{
+            print("DEBUG_PRINT: Post numberOfRowsInSection postdata数 = nil")
+            return 0
+        }
+        // デバッグ
+        print("DEBUG_PRINT: Post numberOfRowsInSection postdata数 = \(postdata!.comments.count)")
+        
+        return (postdata?.comments.count)!
     }
     
+    // セルの中身を返す
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // デバッグ
         print("DEBUG_PRINT: Post cellForRowAtが実行")
         
         // セルを取得してデータを設定する
         let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell", for: indexPath) as! CommentTableViewCell
-        cell.setComment(indexPath.row)
+        cell.setComment(indexPath.row, self.postdata!)
         
         return cell
     }
-    /*
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 200.0
     }
- */
+ 
 }

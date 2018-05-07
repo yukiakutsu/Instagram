@@ -358,7 +358,7 @@
                                     <action selector="SendButton:" destination="D2W-Nf-eTu" eventType="touchUpInside" id="I4r-cN-MS4"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9mv-bU-aTF">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9mv-bU-aTF">
                                 <rect key="frame" x="30" y="141" width="315" height="300"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="igK-5G-IzD"/>
