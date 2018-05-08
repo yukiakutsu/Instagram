@@ -35,8 +35,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // テーブル行の高さをAutoLayoutで自動調整する
         tableView.rowHeight = UITableViewAutomaticDimension
         // テーブル行の高さの概算値を設定しておく
-        // 高さ概算値　＝　「縦横比1:1のUIImageViewの高さ(=画面幅)」+「いいねボタン、キャプションラベル、その他余白の高さの合計幅(=100)」
-        tableView.estimatedRowHeight = UIScreen.main.bounds.width + 100 + 400
+        // 高さ概算値　＝　「縦横比1:1のUIImageViewの高さ(=画面幅)」+「いいねボタン、キャプションラベル、その他余白の高さの合計幅(=100)」+ コメント欄の高さ
+        tableView.estimatedRowHeight = UIScreen.main.bounds.width + 100 + 100
     }
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
@@ -119,7 +119,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         // セルを取得してデータを設定する
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! PostTableViewCell
-        cell.postdata = postArray[indexPath.row]
         cell.setPostData(postArray[indexPath.row])
         
         // セル内のいいねボタンのアクションをソースコードで設定する

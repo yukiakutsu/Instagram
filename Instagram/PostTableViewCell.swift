@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class PostTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var postImageView: UIImageView!
@@ -48,9 +51,9 @@ class PostTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     
     func setPostData(_ postData: PostData){
         // デバッグ
-        print("DEBUG_PRINT: setPostDataが実行された")
+        print("DEBUG_PRINT: setPostDataが実行")
         
-        //self.postdata = postData
+        self.postdata = postData
         
         postImageView.image = postData.image
         
@@ -72,19 +75,19 @@ class PostTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         }
         
         // コメント一覧のTableViewを表示する
-        //self.tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     // セルの数を返す
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if postdata == nil{
+        if (postdata == nil || postdata?.comments == [[]]) {
             print("DEBUG_PRINT: Post numberOfRowsInSection postdata数 = nil")
             return 0
         }
+        
         // デバッグ
         print("DEBUG_PRINT: Post numberOfRowsInSection postdata数 = \(postdata!.comments.count)")
-        
         return (postdata?.comments.count)!
     }
     
@@ -101,7 +104,7 @@ class PostTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200.0
+        return 100.0
     }
  
 }
